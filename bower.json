@@ -1,0 +1,12 @@
+{
+  "name": "pycon2015",
+  "version": "0.0.1",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "components"
+  ],
+  "dependencies": {
+    "reveal.js": "~3.0.0"
+  }
+}
