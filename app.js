@@ -1,5 +1,3 @@
-
-
 var express = require('express');
 var http = require('http');
 var path = require('path');
@@ -7,26 +5,26 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-
+var utils = require('./utils.js');
 
 var routes = require('./routes/index');
 var users = require('./routes/user');
 
 var app = express();
 
-var masterUser = 'admin';
-var masterPass = 'password';
-var auth = express.basicAuth(masterUser, masterPass);
+app.use('/master', utils.basicAuth('admin', 'password'));
 
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/reveal.js', express.static(path.join(__dirname, 'node_modules/reveal.js')));
 
 app.get('/', function(req, res){
-  res.sendfile(__dirname + '/views/index.html');
+  res.sendFile(__dirname + '/views/index.html');
 });
 
-app.get('/master', auth, function(req, res){
-  res.sendfile(__dirname + '/views/master.html');
+app.get('/master', function(req, res){
+  res.sendFile(__dirname + '/views/master.html');
 });
+
 // view engine setup
 
 app.set('views', path.join(__dirname, 'views'));
@@ -44,7 +42,7 @@ app.use(bodyParser.urlencoded({
   extended: true
 }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+//app.use('/reveal.js', express.static(path.join(__dirname, 'public/components/reveal.js')));
 
 //app.use('/', routes);
 //app.use('/users', users);
@@ -83,6 +81,8 @@ app.use(function(err, req, res, next) {
     });
 });
  
+
+
 var server = http.createServer(app).listen(3001, function(){
   console.log("Express server listening on port 3001");
 });
