@@ -14,12 +14,18 @@ var users = require('./routes/user');
 
 var app = express();
 
- 
+var masterUser = 'admin';
+var masterPass = 'password';
+var auth = express.basicAuth(masterUser, masterPass);
 
-  app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'public')));
+
 app.get('/', function(req, res){
   res.sendfile(__dirname + '/views/index.html');
-  console.log(__dirname);
+});
+
+app.get('/master', auth, function(req, res){
+  res.sendfile(__dirname + '/views/master.html');
 });
 // view engine setup
 
@@ -83,9 +89,9 @@ var server = http.createServer(app).listen(3001, function(){
 var io = require("socket.io");
 var ioServer = io.listen(server);
 ioServer.sockets.on('connection', function (socket) {
-  socket.emit("message", "Welcome to Revealer");
-socket.on("slidechanged", function(data){
-  socket.broadcast.emit("slidechanged", data);
-});
+    socket.emit("message", "Welcome to Revealer");
+    socket.on("slidechanged", function(data){
+      socket.broadcast.emit("slidechanged", data);
+    });
 });
 module.exports = app;
