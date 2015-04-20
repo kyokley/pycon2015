@@ -14,7 +14,7 @@ var app = express();
 
 app.use('/master', utils.basicAuth('admin', 'password'));
 
-app.use(express.static(path.join(__dirname, 'public')));
+app.use('/public', express.static(path.join(__dirname, 'public')));
 app.use('/reveal.js', express.static(path.join(__dirname, 'node_modules/reveal.js')));
 
 app.get('/', function(req, res){
@@ -42,7 +42,6 @@ app.use(bodyParser.urlencoded({
   extended: true
 }));
 app.use(cookieParser());
-//app.use('/reveal.js', express.static(path.join(__dirname, 'public/components/reveal.js')));
 
 //app.use('/', routes);
 //app.use('/users', users);
@@ -81,8 +80,6 @@ app.use(function(err, req, res, next) {
     });
 });
  
-
-
 var server = http.createServer(app).listen(3001, function(){
   console.log("Express server listening on port 3001");
 });

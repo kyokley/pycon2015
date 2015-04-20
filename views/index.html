@@ -69,17 +69,15 @@
     <script src="/reveal.js/lib/js/head.min.js"></script>
     <script src="/reveal.js/js/reveal.js"></script>
     <script src="/socket.io/socket.io.js"></script>
+    <script src="/public/js/socketstuff.js"></script>
 
     <script>
-var socket = io.connect("http://localhost:3001");
         // Required, even if empty.
         Reveal.initialize({
                 progress: false
         });
 
-socket.on('slidechanged', function (data) {
-  Reveal.slide(data.indexh, data.indexv, data.indexf);
-});
+        var socket = getSocket();
     </script>
 </body>
 </html>
